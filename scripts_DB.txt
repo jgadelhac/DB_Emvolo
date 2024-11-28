@@ -1,0 +1,95 @@
+create database Emvolo_LTDA
+
+create table cliente(
+	id SERIAL primary key,
+	nome varchar(100),
+	email varchar(100),
+	telefone varchar(100),
+	data_nascimento date,
+	cpf varchar (100)
+);
+
+create table veiculo (
+	id serial primary key,
+	id_pessoa int references cliente(id) on delete cascade,
+	marca varchar(100),
+	modelo varchar(100),
+	placa varchar(7),
+	ano int,
+	cor varchar(100),
+	preco varchar(100)
+);
+
+create table servico (
+	id serial primary key,
+	id_pessoa int references cliente(id) on delete cascade,
+	id_veiculo int references veiculo(id) on delete cascade,
+	descricao varchar(1000),
+	preco varchar (100),
+	tipo varchar(100)
+);
+
+create table produto (
+	id serial primary key,
+	nome varchar (100),
+	descricao varchar (1000),
+	categoria varchar(100),
+	preco varchar (100)
+);
+
+create table venda (
+	id serial primary key,
+	id_cliente int references cliente(id) on delete cascade,
+	id_veiculo int references veiculo(id) on delete cascade,
+	id_produto int references produto(id) on delete cascade,
+	data_venda date,
+	valor varchar(100)
+);
+
+
+insert into cliente (nome, email, telefone, data_nascimento, cpf) values
+('João Silva', 'joao.silva@email.com', '99999-1111', '1985-04-12', '123.456.789-00'),
+('Maria Oliveira', 'maria.oliveira@email.com', '99999-2222', '1990-07-25', '987.654.321-00'),
+('Carlos Souza', 'carlos.souza@email.com', '99999-3333', '1982-10-30', '345.678.901-00'),
+('Ana Costa', 'ana.costa@email.com', '99999-4444', '1995-01-15', '567.890.123-00'),
+('Lucas Pereira', 'lucas.pereira@email.com', '99999-5555', '1998-03-20', '234.567.890-00');
+
+insert into veiculo (id_pessoa, marca, modelo, placa, ano, cor, preco) values
+(1, 'Fiat', 'Uno', 'ABC1234', 2015, 'Branco', '25000'),
+(2, 'Chevrolet', 'Onix', 'XYZ5678', 2020, 'Preto', '45000'),
+(3, 'Volkswagen', 'Gol', 'GHI9012', 2018, 'Vermelho', '30000'),
+(4, 'Honda', 'Civic', 'JKL3456', 2022, 'Azul', '80000'),
+(5, 'Ford', 'Focus', 'LMN7890', 2019, 'Prata', '60000');
+
+insert into servico (id_pessoa, id_veiculo, descricao, preco, tipo) values
+(1, 1, 'Troca de óleo e filtro', '150', 'Manutenção'),
+(2, 2, 'Alinhamento e balanceamento', '200', 'Manutenção'),
+(3, 3, 'Troca de pastilhas de freio', '350', 'Manutenção'),
+(4, 4, 'Revisão completa', '500', 'Manutenção'),
+(5, 5, 'Troca de bateria', '400', 'Manutenção');
+
+insert into produto (nome, descricao, categoria, preco) values
+('Kit de limpeza', 'Kit com produtos para limpeza interna e externa', 'Acessórios', '100'),
+('Capa de banco', 'Capa de proteção para bancos', 'Acessórios', '150'),
+('Som automotivo', 'Sistema de som completo com alto-falantes', 'Eletrônicos', '500'),
+('Faróis de milha', 'Faróis adicionais para visibilidade em neblina', 'Eletrônicos', '200'),
+('Tapete de carro', 'Tapete emborrachado para proteção do carro', 'Acessórios', '80');
+
+
+insert into venda (id_cliente, id_veiculo, id_produto, data_venda, valor) values
+(1, 1, 1, '2024-11-01', '25500'),
+(2, 2, 3, '2024-11-05', '45500'),
+(3, 3, 5, '2024-11-10', '30800'),
+(4, 4, 4, '2024-11-12', '80500'),
+(5, 5, 2, '2024-11-15', '62000');
+
+
+select * from cliente;
+
+select * from veiculo;
+
+select * from servico;
+
+select * from produto;
+
+select * from venda;
